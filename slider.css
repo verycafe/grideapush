@@ -1,0 +1,329 @@
+/* 整体样式与动画 */
+:root {
+  --primary-color: #1D9BF0;        /* X蓝色 */
+  --primary-hover: #1A8CD8;
+  --text-primary: #E7E9EA;         /* 主要文本-亮色 */
+  --text-secondary: #71767B;       /* 次要文本-灰色 */
+  --background-primary: #2B2B2C;   /* 主背景-黑色 */
+  --background-secondary: #2B2B2C; /* 次背景-深灰 */
+  --background-tertiary: #202327;  /* 输入框背景 */
+  --border-color: #2F3336;         /* 边框颜色 */
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --radius-small: 6px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+  --radius-full: 9999px;           /* 完全圆角 */
+  --anim-speed: 0.3s;
+  --sidebar-width: 350px;
+}
+
+/* 侧边栏主容器 */
+.word-slider {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--background-primary);
+  transition: right var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10000;
+  box-shadow: var(--shadow-medium);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid var(--border-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: var(--text-primary);
+}
+
+.word-slider.active {
+  right: 0;
+}
+
+/* 头部样式 */
+.word-slider .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+  background: transparent; /* 确保头部没有背景色 */
+}
+
+.word-slider .header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: transparent; /* 确保标题没有背景色 */
+  padding: 0; /* 移除可能的内边距 */
+}
+
+.word-slider .collapse-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.word-slider .collapse-btn:hover {
+  background-color: rgba(239, 243, 244, 0.1);
+  color: var(--text-primary);
+}
+
+/* 标签和输入框 */
+.word-slider label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  font-weight: 500;
+  display: block;
+}
+
+.word-slider textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-medium);
+  resize: vertical;
+  font-family: inherit;
+  box-sizing: border-box;
+  min-height: 500px;
+  background-color: var(--background-tertiary);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.word-slider textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* 按钮样式 */
+.word-slider .button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.word-slider button#saveNoteInSidebar {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  flex: 1;
+}
+
+.word-slider button#saveNoteInSidebar:hover {
+  background: var(--primary-hover);
+}
+
+.word-slider button#settingsBtn {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 10px 16px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.word-slider button#settingsBtn:hover {
+  background: rgba(239, 243, 244, 0.1);
+}
+
+/* 状态信息 */
+.word-slider .status {
+  margin-top: 16px;
+  font-size: 14px;
+  min-height: 20px;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.word-slider .status-loading {
+  color: var(--primary-color);
+}
+
+.word-slider .status-success {
+  color: #00BA7C; /* X成功色 */
+}
+
+.word-slider .status-error {
+  color: #F4212E; /* X错误色 */
+}
+
+/* 设置面板样式 */
+.word-slider .settings-panel {
+  position: absolute;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--background-primary);
+  transition: right var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.word-slider .settings-panel.active {
+  right: 0;
+}
+
+.word-slider .back-btn {
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+  align-self: flex-start;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.word-slider .back-btn:hover {
+  color: var(--primary-color);
+}
+
+.word-slider .back-btn:before {
+  content: "←";
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.word-slider .settings-input {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--background-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-medium);
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.word-slider .settings-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.word-slider .settings-status {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.word-slider .settings-status.success {
+  color: #00BA7C;
+}
+
+.word-slider .settings-status.error {
+  color: #F4212E;
+}
+
+.word-slider .settings-footer {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.word-slider button#saveTokenBtn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.word-slider button#saveTokenBtn:hover {
+  background: var(--primary-hover);
+}
+
+.word-slider .settings-button-container {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 20px;
+}
+
+/* 滚动条样式 - 只为扩展的文本区域应用 */
+.word-slider textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+.word-slider textarea::-webkit-scrollbar-track {
+  background: var(--background-tertiary);
+  border-radius: 4px;
+}
+
+.word-slider textarea::-webkit-scrollbar-thumb {
+  background: #38444D;
+  border-radius: 4px;
+}
+
+.word-slider textarea::-webkit-scrollbar-thumb:hover {
+  background: #4C545C;
+}
+
+/* Toast通知样式 */
+.word-slider-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  padding: 12px 20px;
+  border-radius: var(--radius-medium);
+  font-size: 14px;
+  z-index: 10001;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid var(--border-color);
+  max-width: 280px;
+}
+
+.word-slider-toast.active {
+  opacity: 1;
+  transform: translateY(0);
+}
